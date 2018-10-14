@@ -1,6 +1,8 @@
 
 from ezprint import *
 from tkinter import *
+import threading
+from time import *
 import os
 #00FFFF голубой
 #FFFF00 желтый
@@ -25,6 +27,16 @@ def print_dots():
 	label.config(font = ('Arial', 10 , 'bold'))
 	label.place(x=40, y=30)
 	label.bind("<Button-1>", go_up)
+
+
+def time_update():
+	while True:
+		t = strftime("%Y-%m-%d %H:%M", gmtime())
+		label = Label(root, text = t, bg='#000080', fg='#FFFF00')
+		label.config(font = ('Arial', 15 , 'bold'))
+		label.place(x=20, y=557)
+	sleep(60)
+
 
 
 def start_gui():
@@ -61,6 +73,10 @@ def start_gui():
 
 	print_directory()
 	print_dots()
+	
+	t = threading.Thread(target=time_update)
+	t.start()
+
 	root.mainloop()
 
 
