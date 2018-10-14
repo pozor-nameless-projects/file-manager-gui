@@ -11,7 +11,25 @@ import os
 root = None
 time_tread = None
 isWork = True
+sizes = []
 files = os.listdir(os.getcwd())
+
+
+def init_size():
+	global sizes
+	for file in files:
+		fs = os.path.getsize(file)
+		p = 'B'
+		if fs > 1024:
+			fs = round(fs/1024)
+			p = 'KB'
+		if fs > 1024:
+			fs = round(fs/1024)
+			p = 'MB'
+		if fs > 1024:
+			fs = round(fs/1024)
+			p = 'GB'
+		sizes.append(str(fs) + ' ' + p)
 
 
 def go_file(file):
@@ -80,10 +98,11 @@ def time_update():
 
 def print_files():
 	global files
-	
+	global sizes
+
 	y = 50
 	for i in range(len(files)):
-		label = Label(root, text = files[i], bg='#000080', fg='#000080')
+		label = Label(root, text = files[i] + ' ' + sizes[i], bg='#000080', fg='#000080')
 		label.config(font = ('Arial', 10 , 'bold'))
 		label.place(x=40, y=y)
 		y+= 20
@@ -114,7 +133,7 @@ def print_files():
 
 	y = 50
 	for i in range(len(files)):
-		label = Label(root, text = files[i], bg='#000080', fg='#FFFF00')
+		label = Label(root, text = files[i] + ' ' + sizes[i], bg='#000080', fg='#FFFF00')
 		label.config(font = ('Arial', 10 , 'bold'))
 		label.place(x=40, y=y)
 		y+= 20
@@ -142,7 +161,7 @@ def start_gui():
 	root.config(bg = '#000080')
 	root.config()
 	draw_borded()
-
+	init_size()
 	print_directory()
 	print_dots()
 	
